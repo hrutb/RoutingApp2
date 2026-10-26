@@ -1,0 +1,68 @@
+
+  <div class="row">
+     <div class="col-md-5">
+           <mat-card>
+                  <mat-card-content>
+                    <!-- {{User.Uid}} -->
+                     <img mat-card-image [src]="User.imageUrl" alt="">
+
+
+                   </mat-card-content>
+                     <strong>
+                       User name: {{User.name}}
+                     </strong>
+                      ( {{User.role}} )
+
+                     <p>
+                        {{User.description}}
+                     </p>
+                   <mat-card-actions class="d-flex justify-content-between align-item-center">
+                                <button class="btn btn-outline-primary" [routerLink]="['/user',User.Uid,'edit']" >Edit</button>
+                                <button class="btn btn-outline-danger" (click)="OnRemove()">Delete</button>
+                   </mat-card-actions>
+           </mat-card>
+
+     </div>
+
+     <div class="col-md-7">
+           <mat-card>
+              <h6>Basic Information:</h6>
+              <p>Experience:{{User.experience}}</p>
+              <p>User is Active:{{User.status? "Yes":'No'}}</p>
+
+           </mat-card>
+
+            <mat-card class="mt-5">
+                   <mat-chip-list  *ngFor="let skill of User.skills">
+                      <mat-chip>{{skill}}</mat-chip>
+                   </mat-chip-list>
+            </mat-card>
+
+            <mat-card class="mt-5">
+                <div class="row">
+                   <div class="col-md-6">
+                      <h5>Current Address:</h5>
+                     <p>City: {{User.currentAddress.city}}</p>
+                     <p>State: {{User.currentAddress.state}}</p>
+                     <p>Country:{{User.currentAddress.country}}</p>
+                     <p>ZipCode:{{User.currentAddress.zipcode}}</p>
+                  </div>
+
+
+                  <div class="col-md-6">
+                      <h5>Permanent Address:</h5>
+                     <p>City: {{User.permanentAddress.city}}</p>
+                     <p>State: {{User.permanentAddress.state}}</p>
+                     <p>Country:{{User.permanentAddress.country}}</p>
+                     <p>ZipCode:{{User.permanentAddress.zipcode}}</p>
+                    </div>
+                </div>
+
+             </mat-card>
+       </div>
+   </div>
+<!--
+   <div class="row">
+
+   </div> -->
+

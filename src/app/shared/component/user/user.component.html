@@ -1,0 +1,17 @@
+
+
+
+
+  <ul class="list-group">
+     <li class="list-group-item" *ngFor="let user of userArr" [routerLink]="user.Uid">
+              {{user.name}} - {{user.id}}
+     </li>
+  </ul>
+
+  <div>
+    <button
+      routerLink="add"
+
+      class="btn btn-outline-primary">Add User</button>
+  </div>
+

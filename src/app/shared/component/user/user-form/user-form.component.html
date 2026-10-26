@@ -1,0 +1,137 @@
+<div class="container">
+    <div class="row">
+     <div class="col-md-10">
+      <div class="card">
+         <div class="card-body">
+           <form action="" [formGroup]="UserForm" (ngSubmit)="onAdd()">
+              <div class="form-group">
+                    <label for="">User Name:</label>
+                    <input type="text" class="form-control" formControlName="name">
+                  <strong *ngIf="controls['name']?.touched && controls['name'].hasError('required')" class="text-danger">user name is requried...! </strong>
+
+              </div>
+              <div class="form-group">
+                    <label for="">User Role:</label>
+                    <input type="text" class="form-control" formControlName="role">
+                  <strong *ngIf="controls['role']?.touched && controls['role'].hasError('required')" class="text-danger">user role  is requried...! </strong>
+
+              </div>
+
+              <div class="form-group">
+                    <label for="">Experience :</label>
+                    <input type="number" class="form-control" formControlName="experience">
+                  <strong *ngIf="controls['experience']?.touched && controls['experience'].hasError('required')" class="text-danger">user experience  is requried...! </strong>
+
+              </div>
+
+              <div class="form-group">
+                    <label for="">Description :</label>
+                    <textarea rows="4" class="form-control" formControlName="description">
+                    </textarea>
+                  <strong *ngIf="controls['description']?.touched && controls['description'].hasError('required')" class="text-danger">user description  is requried...! </strong>
+
+              </div>
+
+               <div class="form-group">
+                  <label for="">ImageUrl :</label>
+                  <input type="text" class="form-control" formControlName="imageUrl">
+                  <strong *ngIf="controls['imageUrl']?.touched && controls['imageUrl'].hasError('required')" class="text-danger">user image  is requried...! </strong>
+               </div>
+               <div class="form-group">
+                  <label for="">Is Active:</label>
+                   <select type="text" formControlName="status" class="form-control">
+                   <option [ngValue]="true">Yes</option>
+                   <option [ngValue]="false">No</option>
+                  </select>
+               </div>
+
+                <div formArrayName="Skills">
+                  <div class="row" *ngFor="let skills of skillsArr.controls; let i  = index">
+                    <div class="col-md-6 mt-2 mb-2">
+                      <input type="text" class="form-control" [formControlName]="i">
+                       <!-- <strong *ngIf="controls[i].touched && controls[i].hasError('required')">Skills is required</strong> -->
+                    </div>
+                      <div class="col-md-4 mt-2 mb-2" *ngIf="i>0">
+                         <button class="btn btn-outline-danger " (click)="onRemove(i)">remove </button>
+                      </div>
+                  </div>
+                </div>
+                <button class="btn btn-outline-primary mt-2 mb-2" (click)="AddSkills()" [disabled]="skillsArr.length>3">Add Skill</button>
+
+
+
+                   <div class="row">
+                     <div class="col-md-6" formGroupName="currentAddress">
+                       <h5>Current Addresss:</h5>
+                       <div >
+
+                            <div class="form-group">
+                               <label for="">City:</label>
+                               <input type="text" class="form-control"  formControlName="city">
+                            </div>
+
+                            <div class="form-group">
+                               <label for="">State:</label>
+                               <input type="text" class="form-control"  formControlName="state">
+                            </div>
+
+                            <div class="form-group">
+                               <label for="">Country:</label>
+                               <input type="text" class="form-control"  formControlName="country">
+                            </div>
+
+                            <div class="form-group">
+                               <label for="">Zipcode:</label>
+                               <input type="text" class="form-control"  formControlName="zipcode">
+
+                       </div>
+
+                     </div>
+                      </div>
+                      <div class="col-md-6" formGroupName="permanentAddress">
+                         <h5>permanent Address:</h5>
+                          <div >
+
+                            <div class="form-group">
+                               <label for="">City:</label>
+                               <input type="text" class="form-control"  formControlName="city">
+                            </div>
+
+                            <div class="form-group">
+                               <label for="">State:</label>
+                               <input type="text" class="form-control"  formControlName="state">
+                            </div>
+
+                            <div class="form-group">
+                               <label for="">Country:</label>
+                               <input type="text" class="form-control"  formControlName="country">
+                            </div>
+
+                            <div class="form-group">
+                               <label for="">Zipcode:</label>
+                               <input type="text" class="form-control"  formControlName="zipcode">
+                            </div>
+                            </div>
+
+                      </div>
+                       <label for="">
+                          <input type="checkbox" formControlName="isAddSame">Current and permanent address
+                       </label>
+                   </div>
+
+
+
+                 <div class="card-footer">
+
+                   <button *ngIf="!IsInEditMode" class='btn btn-outline-primary form-control' type="submit">Submit</button>
+                   <button *ngIf="IsInEditMode" class='btn btn-outline-primary form-control' type="button" (click)="onUpdate()">Update User</button>
+
+                 </div>
+
+              </form>
+
+         </div>
+      </div>
+     </div>
+    </div>
+</div>
