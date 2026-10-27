@@ -13,7 +13,7 @@ import { UserFormComponent } from "./shared/component/user/user-form/user-form.c
 
 const routes : Routes = [
            {
-             path:' ',
+             path:'',
              redirectTo:'login',
              pathMatch:'full'
            },
@@ -25,7 +25,6 @@ const routes : Routes = [
               path:'home',
               component:HomeDashboardComponent
            },
-
            {
                path:'user',
                component:UserComponent
@@ -34,14 +33,13 @@ const routes : Routes = [
                   path:'user/add',
                   component:UserFormComponent
             },
-
             {
-              path:'user/:Uid/edit',
-               component:UserFormComponent
-            },
-             {
                path:"user/:Uid",
                component:UserDetailsComponent
+            },
+            {
+              path:'user/:Uid/edit',
+              component:UserFormComponent
             },
            {
             path:'products',
