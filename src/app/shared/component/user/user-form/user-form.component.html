@@ -43,13 +43,14 @@
                    <option [ngValue]="true">Yes</option>
                    <option [ngValue]="false">No</option>
                   </select>
+                  <strong *ngIf="controls['status']?.touched && controls['status'].hasError('required')" class="text-danger">status is required...!</strong>
                </div>
 
                 <div formArrayName="Skills">
                   <div class="row" *ngFor="let skills of skillsArr.controls; let i  = index">
                     <div class="col-md-6 mt-2 mb-2">
                       <input type="text" class="form-control" [formControlName]="i">
-                       <!-- <strong *ngIf="controls[i].touched && controls[i].hasError('required')">Skills is required</strong> -->
+                      <strong *ngIf="skillsArr.at(i)?.touched && skillsArr.at(i)?.hasError('required')" class="text-danger">Skill is required...!</strong>
                     </div>
                       <div class="col-md-4 mt-2 mb-2" *ngIf="i>0">
                          <button type="button" class="btn btn-outline-danger " (click)="onRemove(i)">remove </button>
@@ -68,21 +69,25 @@
                             <div class="form-group">
                                <label for="">City:</label>
                                <input type="text" class="form-control"  formControlName="city">
+                               <strong *ngIf="address.get('city')?.touched && address.get('city')?.hasError('required')" class="text-danger">City is required...!</strong>
                             </div>
 
                             <div class="form-group">
                                <label for="">State:</label>
                                <input type="text" class="form-control"  formControlName="state">
+                               <strong *ngIf="address.get('state')?.touched && address.get('state')?.hasError('required')" class="text-danger">State is required...!</strong>
                             </div>
 
                             <div class="form-group">
                                <label for="">Country:</label>
                                <input type="text" class="form-control"  formControlName="country">
+                               <strong *ngIf="address.get('country')?.touched && address.get('country')?.hasError('required')" class="text-danger">Country is required...!</strong>
                             </div>
 
                             <div class="form-group">
                                <label for="">Zipcode:</label>
                                <input type="text" class="form-control"  formControlName="zipcode">
+                               <strong *ngIf="address.get('zipcode')?.touched && address.get('zipcode')?.hasError('required')" class="text-danger">Zipcode is required...!</strong>
 
                        </div>
 
@@ -95,21 +100,25 @@
                             <div class="form-group">
                                <label for="">City:</label>
                                <input type="text" class="form-control"  formControlName="city">
+                               <strong *ngIf="per_address.get('city')?.touched && per_address.get('city')?.hasError('required')" class="text-danger">City is required...!</strong>
                             </div>
 
                             <div class="form-group">
                                <label for="">State:</label>
                                <input type="text" class="form-control"  formControlName="state">
+                               <strong *ngIf="per_address.get('state')?.touched && per_address.get('state')?.hasError('required')" class="text-danger">State is required...!</strong>
                             </div>
 
                             <div class="form-group">
                                <label for="">Country:</label>
                                <input type="text" class="form-control"  formControlName="country">
+                               <strong *ngIf="per_address.get('country')?.touched && per_address.get('country')?.hasError('required')" class="text-danger">Country is required...!</strong>
                             </div>
 
                             <div class="form-group">
                                <label for="">Zipcode:</label>
                                <input type="text" class="form-control"  formControlName="zipcode">
+                               <strong *ngIf="per_address.get('zipcode')?.touched && per_address.get('zipcode')?.hasError('required')" class="text-danger">Zipcode is required...!</strong>
                             </div>
                             </div>
 

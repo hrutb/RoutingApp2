@@ -56,7 +56,7 @@ export class UserFormComponent implements OnInit {
               experience: new FormControl('',[Validators.required]),
               description: new FormControl('',[Validators.required]) ,
               imageUrl: new FormControl('',[Validators.required]) ,
-              status: new FormControl('',[Validators.required]),
+              status: new FormControl(null,[Validators.required]),
 
 
 
@@ -116,7 +116,7 @@ export class UserFormComponent implements OnInit {
 
 
  AddSkills(){
-     let controls = new FormControl(null,[Validators.required]) ;
+     let controls = new FormControl('',[Validators.required]) ;
       this.skillsArr.push(controls);
   }
 get controls(){
@@ -175,7 +175,7 @@ IsInEditMode:boolean =false ;
     onPatchValues(user:Iuser){
       this.skillsArr.clear();
       for(const skill of user.skills){
-        this.skillsArr.push(new FormControl(skill,Validators.required));
+        this.skillsArr.push(new FormControl(skill,[Validators.required]));
       }
 
       this.UserForm.patchValue({
