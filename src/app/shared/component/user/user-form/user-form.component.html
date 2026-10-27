@@ -52,11 +52,11 @@
                        <!-- <strong *ngIf="controls[i].touched && controls[i].hasError('required')">Skills is required</strong> -->
                     </div>
                       <div class="col-md-4 mt-2 mb-2" *ngIf="i>0">
-                         <button class="btn btn-outline-danger " (click)="onRemove(i)">remove </button>
+                         <button type="button" class="btn btn-outline-danger " (click)="onRemove(i)">remove </button>
                       </div>
                   </div>
                 </div>
-                <button class="btn btn-outline-primary mt-2 mb-2" (click)="AddSkills()" [disabled]="skillsArr.length>3">Add Skill</button>
+                <button type="button" class="btn btn-outline-primary mt-2 mb-2" (click)="AddSkills()" [disabled]="skillsArr.length>3">Add Skill</button>
 
 
 

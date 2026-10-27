@@ -18,22 +18,19 @@ export class UserFormComponent implements OnInit {
   ngOnInit(): void {
 
     this.oncreate();
-//  this.onPatchValues();
-        let userId =this._routes.snapshot.params['Uid'] ;
+    let userId = this._routes.snapshot.params['Uid'];
 
-     if(userId){
-        this.IsInEditMode = true ;
-          this._userService.fetchProductById(userId)
-                .subscribe(res=>{
-                  this.onPatchValues(res) ;
+    if (userId) {
+      this.IsInEditMode = true;
+      this._userService.fetchProductById(userId)
+        .subscribe(res => {
+          this.onPatchValues(res);
+        });
+    }
 
-                })
-     }
     this.AddSkills();
     this.valueChanges();
     this.patchValues();
-    this.onUpdate() ;
-
   }
 
 
@@ -139,13 +136,14 @@ valueChanges(){
       .subscribe(res=>{
         console.log(res);
         if(this.UserForm.get('currentAddress')?.valid) {
-                       console.log("true")
-                this.controls['isAddSame']?.enable();
-          } else{
-                this.controls['isAddSame']?.disable();
-                this.controls['isAddSame']?.reset();
-             }
-          })
+          console.log("true");
+          this.controls['isAddSame']?.enable();
+        } else{
+          this.controls['isAddSame']?.disable();
+          this.controls['isAddSame']?.reset();
+          this.per_address.enable();
+        }
+      })
 }
 
 
@@ -160,9 +158,9 @@ patchValues(){
 
           }else{
             this.per_address.enable();
-            this.per_address.reset();
-
-
+            if (this.UserForm.get('permanentAddress')?.pristine) {
+              this.per_address.reset();
+            }
           }
         })
       }
@@ -175,43 +173,57 @@ IsInEditMode:boolean =false ;
 
 
     onPatchValues(user:Iuser){
-      this.skillsArr.clear()
-        for(const skill of user.skills){
+      this.skillsArr.clear();
+      for(const skill of user.skills){
+        this.skillsArr.push(new FormControl(skill,Validators.required));
+      }
 
-         this.skillsArr.push(new FormControl(skill,Validators.required)) ;
-         }
-          this.UserForm.patchValue(user) ;
-       }
+      this.UserForm.patchValue({
+        ...user,
+        Skills: user.skills,
+        isAddSame: this.areAddressesSame(user.currentAddress, user.permanentAddress)
+      });
+
+      if (this.areAddressesSame(user.currentAddress, user.permanentAddress)) {
+        this.per_address.patchValue(user.currentAddress);
+        this.per_address.disable();
+        this.controls['isAddSame']?.enable();
+      } else {
+        this.per_address.enable();
+        this.controls['isAddSame']?.enable();
+      }
+    }
+
+    areAddressesSame(currentAddress: any, permanentAddress: any): boolean {
+      return JSON.stringify(currentAddress) === JSON.stringify(permanentAddress);
+    }
 
 
 
 
 
     onUpdate(){
-      // this._userService.updateUser(User)
+      if (this.UserForm.invalid) {
+        this.UserForm.markAllAsTouched();
+        return;
+      }
 
-         if(this.UserForm.valid){
-                 this.UserForm.markAllAsTouched()
-                 return ;
+      const updatedUser: Iuser = {
+        ...this.UserForm.getRawValue(),
+        id: Date.now(),
+        Uid: Date.now().toString()
+      };
+
+      this._userService.updateUser(updatedUser)
+        .subscribe({
+          next: res => {
+            this._router.navigate(['user']);
+            this._snackbar.Snackbar('User updated successfully');
+          },
+          error: err => {
+            console.log(err);
           }
-
-        const  updatedUser : Iuser={
-                ...this.UserForm.value,
-                id: Date.now(),
-                Uid:Date.now().toString()
-         }
-
-        this._userService.updateUser(updatedUser)
-          .subscribe({
-              next:res=>{
-                 this._router.navigate(['user']);
-                    this._snackbar.Snackbar('User updated successfully')
-
-              },
-              error:err=>{
-                   console.log(err);
-              }
-          })
+        });
     }
 
 }
