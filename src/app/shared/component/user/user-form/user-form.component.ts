@@ -18,7 +18,7 @@ export class UserFormComponent implements OnInit {
   ngOnInit(): void {
 
     this.oncreate();
-    let userId = this._routes.snapshot.params['Uid'];
+      let userId = this._routes.snapshot.params['Uid'];
 
     if (userId) {
       this.IsInEditMode = true;
@@ -80,13 +80,32 @@ export class UserFormComponent implements OnInit {
                  Skills: new  FormArray([]) ,
           })
   }
+  normalizeSkills(skillsData: any): string[] {
+    if (Array.isArray(skillsData)) {
+      return skillsData
+        .map((skill) => (typeof skill === 'string' ? skill.trim() : ''))
+        .filter((skill) => skill.length > 0);
+    }
+
+    if (typeof skillsData === 'string') {
+      return skillsData
+        .split(',')
+        .map((skill) => skill.trim())
+        .filter((skill) => skill.length > 0);
+    }
+
+    return [];
+  }
+
   onAdd(){
     console.log(this.UserForm)
     if(this.UserForm.invalid){
            this.UserForm.markAllAsTouched();
     }else{
+         const { Skills, ...rest } = this.UserForm.getRawValue();
          let newObj ={
-              ...this.UserForm.getRawValue(),
+              ...rest,
+              skills: this.normalizeSkills(Skills),
                  Uid:Date.now().toString(),
                  id:Date.now()
               } ;
@@ -173,14 +192,16 @@ IsInEditMode:boolean =false ;
 
 
     onPatchValues(user:Iuser){
+      const skillList = this.normalizeSkills(user.skills || []);
       this.skillsArr.clear();
-      for(const skill of user.skills){
+      for(const skill of skillList){
         this.skillsArr.push(new FormControl(skill,[Validators.required]));
       }
 
       this.UserForm.patchValue({
         ...user,
-        Skills: user.skills,
+        skills: skillList,
+        Skills: skillList,
         isAddSame: this.areAddressesSame(user.currentAddress, user.permanentAddress)
       });
 
@@ -208,11 +229,13 @@ IsInEditMode:boolean =false ;
         return;
       }
 
+      const { Skills, ...rest } = this.UserForm.getRawValue();
       const updatedUser: Iuser = {
-        ...this.UserForm.getRawValue(),
+        ...rest,
+        skills: this.normalizeSkills(Skills),
         id: Date.now(),
         Uid: Date.now().toString()
-      };
+      } as Iuser;
 
       this._userService.updateUser(updatedUser)
         .subscribe({
